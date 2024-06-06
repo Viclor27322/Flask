@@ -1,15 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
-
-@app.route('/submit', methods=['POST'])
-def submit():
-    nombre = request.form.get('nombre')
-    return f"¡Formulario enviado! ¡Hola, {nombre}!"
+    return "Hola Mundo, Victor Fernando Rivera Hernandez 9 B"
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Clasificador de Insectos</title>
+    <title>Clasificador de Drogas</title>
     <script>
-        function clasificarInsecto(event) {
+        function clasificarDroga(event) {
             event.preventDefault();
-            const abdomen = document.getElementById('abdomen').value;
-            const antena = document.getElementById('antena').value;
+            const bp = document.getElementById('bp').value;
+            const Na_to_K = document.getElementById('Na_to_K').value;
+            const Cholesterol_HIGH = document.getElementById('Cholesterol_HIGH').value;
 
             fetch('/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `abdomen=${abdomen}&antena=${antena}`,
+                body: `bp=${bp}&Na_to_K=${Na_to_K}&Cholesterol_HIGH=${Cholesterol_HIGH}`,
             })
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
                     document.getElementById('resultado').innerText = 'Error: ' + data.error;
                 } else {
-                    document.getElementById('resultado').innerText = 'El insecto es una ' + data.categoria;
+                    document.getElementById('resultado').innerText = 'La droga es ' + data.categoria;
                 }
             })
             .catch(error => {
@@ -31,12 +32,16 @@
     </script>
 </head>
 <body>
-    <h1>Clasificador de Insectos</h1>
-    <form id="formulario" onsubmit="clasificarInsecto(event)">
-        <label for="abdomen">Longitud del Abdomen:</label>
-        <input type="text" id="abdomen" name="abdomen"><br><br>
-        <label for="antena">Longitud de las Antenas:</label>
-        <input type="text" id="antena" name="antena"><br><br>
+    <h1>Clasificador de Drogas</h1>
+    <form id="formulario" onsubmit="clasificarDroga(event)">
+        <label for="bp">Niveles de presión arterial:</label>
+        <input type="text" id="bp" name="bp"><br><br>
+        <p>High(0.0), Low(1.0), Normal(2.0)</p>
+        <label for="Na_to_K">Ración de sodio a potasio en sangre:</label>
+        <input type="text" id="Na_to_K" name="Na_to_K"><br><br>
+        <label for="Cholesterol_HIGH">Colesterol alto:</label>
+        <p>Si(1), No(0)</p>
+        <input type="text" id="Cholesterol_HIGH" name="Cholesterol_HIGH"><br><br>
         <input type="submit" value="Enviar">
     </form>
     <p id="resultado"></p>
